@@ -1,30 +1,24 @@
-import 'package:hero/domain/model/appearance.dart';
-import 'package:hero/domain/model/biography.dart';
-import 'package:hero/domain/model/images.dart';
+import 'package:collection/collection.dart';
+import 'package:hero/domain/model/location.dart';
 
 class HeroClass {
   const HeroClass({
     required this.id,
     required this.name,
-    required this.appearance,
+    required this.species,
     required this.image,
-    required this.biography,
+    required this.episode,
+    required this.location,
   });
   final int id;
   final String name;
-  final Appearance appearance;
-  final Images image;
-  final Biography biography;
-
-  List<String> get images => [
-        image.lg,
-        image.md,
-        image.sm,
-        image.xs,
-      ];
+  final String species;
+  final String image;
+  final List<String> episode;
+  final Location location;
 
   @override
-  int get hashCode => Object.hashAll([id, name, appearance, image, biography]);
+  int get hashCode => Object.hashAll([id, name, species, image]);
 
   @override
   bool operator ==(Object other) {
@@ -33,8 +27,8 @@ class HeroClass {
     }
     return id == other.id &&
         name == other.name &&
-        appearance == other.appearance &&
+        species == other.species &&
         image == other.image &&
-        biography == other.biography;
+        episode.equals(other.episode);
   }
 }

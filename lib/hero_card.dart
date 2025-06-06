@@ -28,7 +28,7 @@ class HeroCard extends StatelessWidget {
         child: Column(
           children: [
             Image.network(
-              hero.image.sm,
+              hero.image,
               height: 80,
               width: double.maxFinite,
               fit: BoxFit.cover,
@@ -47,7 +47,7 @@ class HeroCard extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 8,
                 vertical: 2,
               ),
@@ -56,7 +56,7 @@ class HeroCard extends StatelessWidget {
                 children: [
                   Flexible(
                     child: Text(
-                      hero.appearance.gender,
+                      hero.species,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -64,12 +64,12 @@ class HeroCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 8,
                   ),
                   Flexible(
                     child: Text(
-                      hero.appearance.race,
+                      hero.location.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(

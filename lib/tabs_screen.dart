@@ -12,8 +12,8 @@ class TabsScreen extends StatefulWidget {
 
 class _TabsScreenState extends State<TabsScreen> {
   final _screens = {
-    'heroes': MainScreen(),
-    'favorite': FavoriteScreen(),
+    'heroes': const MainScreen(),
+    'favorite': const FavoriteScreen(),
   };
 
   final _titles = {

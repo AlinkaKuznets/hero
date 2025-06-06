@@ -39,6 +39,7 @@ class MainScreen extends StatelessWidget {
                         crossAxisSpacing: 8,
                         mainAxisSpacing: 8,
                       ),
+                      itemCount: state.data.length,
                       itemBuilder: (ctx, index) => HeroCard(state.data[index]),
                     ),
             };
@@ -48,4 +49,3 @@ class MainScreen extends StatelessWidget {
     );
   }
 }
-

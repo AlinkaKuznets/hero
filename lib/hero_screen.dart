@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hero/domain/cubit/favorite_cubit.dart';
 import 'package:hero/domain/cubit/single_heroes_cubit.dart';
@@ -63,62 +64,45 @@ class HeroScreen extends StatelessWidget {
                   ],
                 ),
               ),
-            HeroStateSelected() => Column(
-                children: [
-                  SizedBox(
-                    height: 300,
-                    child: PageView(
-                      children: state.data.images
-                          .map(
-                            (e) => Image.network(
-                              e,
-                              loadingBuilder:
-                                  (context, child, loadingProgress) {
-                                if (loadingProgress == null) {
-                                  return child;
-                                }
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                        : null,
-                                  ),
-                                );
-                              },
-                              fit: BoxFit.fill,
-                            ),
-                          )
-                          .toList(),
+            HeroStateSelected() => SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Image.network(
+                      state.data.image,
+                      height: 300,
+                      width: double.maxFinite,
+                      fit: BoxFit.cover,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Text(
-                    state.data.name,
-                    style: const TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 101, 5, 5),
+                    const SizedBox(
+                      height: 16,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Text(
-                    'Appearance: ${state.data.biography.alignment}',
-                    style: const TextStyle(
-                      fontSize: 18,
+                    Text(
+                      state.data.name,
+                      style: const TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 101, 5, 5),
+                      ),
                     ),
-                  ),
-                  Text(
-                    'First appearence: ${state.data.biography.firstAppearance}',
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                ],
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    Text(
+                      'Appearance: ${state.data.location.name}',
+                      style: const TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                    Text(
+                      'First appearence: ${state.data.location.name}',
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                    Text(
+                      'Episode: ${state.data.episode.length}',
+                      style: const TextStyle(fontSize: 18),
+                    )
+                  ],
+                ),
               ),
           },
         ),

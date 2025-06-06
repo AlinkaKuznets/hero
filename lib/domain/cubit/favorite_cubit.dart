@@ -17,6 +17,7 @@ class FavoriteCubit extends Cubit<FavoriteState> {
     }
   }
 
+  //TODO: refactor
   Future<void> markHeroFavorite(HeroClass hero) async {
     try {
       await _heroRepository.markHeroFavorite(hero);

@@ -1,28 +1,23 @@
 import 'dart:convert';
 
 import 'package:hero/data/source/dto/hero_dto.dart';
+import 'package:hero/data/source/dto/response_dto.dart';
 import 'package:hero/domain/model/hero.dart';
 import 'package:http/http.dart' as http;
 
 class RestSource {
-  static const _baseUrl = 'https://akabab.github.io/superhero-api/api';
+  static const _baseUrl = 'https://rickandmortyapi.com/api/character';
 
-  String _getAllRoute() => '/all.json';
-  String _getOneHeroRoute(int id) => '/id/$id.json';
+  String _getAllRoute() => '/';
+  String _getOneHeroRoute(int id) => '/$id';
 
   Future<List<HeroClass>> getHeroes() async {
     final response = await _get(
       _getAllRoute(),
-    ).then((value) => value as List? ?? []);
+    );
 
-    final List<HeroClass> loadedItems = [];
-
-    for (final item in response) {
-      final dto = HeroDto.fromJson(item);
-      loadedItems.add(dto.toDomain());
-    }
-
-    return loadedItems;
+    final parsedResponse = ResponseDto.fromJson(response);
+    return parsedResponse.results.map((e) => e.toDomain()).toList();
   }
 
   Future<HeroClass> getHero(int id) async {

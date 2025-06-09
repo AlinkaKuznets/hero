@@ -11,7 +11,7 @@ class InfoDto {
   final String next;
   final String prev;
 
-  factory InfoDto.fromJson(Map<String, dynamic> json) {
+  static InfoDto fromJson(Map<String, dynamic> json) {
     return InfoDto(
       count: json['count'] ?? '',
       pages: json['pages'] ?? '',

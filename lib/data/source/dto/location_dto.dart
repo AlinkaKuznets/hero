@@ -9,7 +9,7 @@ class LocationDto {
 
   Location toDomain() => Location(name: name);
 
-  factory LocationDto.fromJson(Map<String, dynamic> json) {
+  static LocationDto fromJson(Map<String, dynamic> json) {
     return LocationDto(name: json['name'] ?? '');
   }
 }

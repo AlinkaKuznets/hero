@@ -12,7 +12,7 @@ class ResponseDto {
 
   ResponseDto toDomain() => ResponseDto(info: info, results: results);
 
-  factory ResponseDto.fromJson(Map<String, dynamic> json) {
+  static ResponseDto fromJson(Map<String, dynamic> json) {
     return ResponseDto(
       info: InfoDto.fromJson(json['info']),
       results: (json['results'] as List)

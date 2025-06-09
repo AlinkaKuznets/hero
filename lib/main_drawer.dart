@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key, required this.onSelectedScreen});
+
   final void Function(String identifier) onSelectedScreen;
 
   @override
@@ -32,7 +33,7 @@ class MainDrawer extends StatelessWidget {
           ),
           ListTile(
             title: const Text(
-              'Back to heroes',
+              'Heroes',
               style: TextStyle(
                 fontSize: 26,
               ),
@@ -53,7 +54,19 @@ class MainDrawer extends StatelessWidget {
               onSelectedScreen('favorite');
               Navigator.of(context).pop();
             },
-          )
+          ),
+          ListTile(
+            title: const Text(
+              'Settings',
+              style: TextStyle(
+                fontSize: 26,
+              ),
+            ),
+            onTap: () {
+              onSelectedScreen('settings');
+              Navigator.of(context).pop();
+            },
+          ),
         ],
       ),
     );

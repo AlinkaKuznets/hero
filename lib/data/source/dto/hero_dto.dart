@@ -27,7 +27,7 @@ class HeroDto {
         location: location.toDomain(),
       );
 
-  factory HeroDto.fromJson(Map<String, dynamic> json) {
+  static HeroDto fromJson(Map<String, dynamic> json) {
     return HeroDto(
       id: json['id'],
       name: json['name'],

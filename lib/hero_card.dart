@@ -48,15 +48,8 @@ class HeroCard extends StatelessWidget {
             const SizedBox(height: 4),
             Padding(
               padding: const EdgeInsets.all(4.0),
-              child: Text(
-                hero.name,
-                style: const TextStyle(
-                  color: Color.fromARGB(255, 101, 5, 5),
-                  fontWeight: FontWeight.bold,
-                  overflow: TextOverflow.ellipsis,
-                  fontSize: 16,
-                ),
-              ),
+              child: Text(hero.name,
+                  style: Theme.of(context).textTheme.labelLarge),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
@@ -68,7 +61,7 @@ class HeroCard extends StatelessWidget {
                       hero.species,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 12),
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -77,7 +70,7 @@ class HeroCard extends StatelessWidget {
                       hero.location.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 12),
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
                 ],

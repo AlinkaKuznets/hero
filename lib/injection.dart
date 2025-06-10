@@ -1,4 +1,5 @@
 import 'package:hero/data/repository/hero_repository_impl.dart';
+import 'package:hero/data/repository/settings_repository_impl.dart';
 import 'package:hero/data/source/rest_source.dart';
 import 'package:hero/data/source/local_setting_source.dart';
 import 'package:hero/data/source/local_storage_source.dart';
@@ -17,6 +18,8 @@ class Injection {
     restSource: _restSource,
     storageSource: _storageSource,
   );
+  late final _settingsRepository =
+      SettingsRepositoryImpl(settingSource: _settingsSource);
 
   HeroesCubit get heroesCubit => HeroesCubit(_heroRepository);
 
@@ -24,5 +27,5 @@ class Injection {
 
   FavoriteCubit get favoriteCubit => FavoriteCubit(_heroRepository);
 
-  SettingsCubit get settingCubit => SettingsCubit(_settingsSource);
+  SettingsCubit get settingCubit => SettingsCubit(_settingsRepository);
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hero/domain/cubit/favorite_cubit.dart';
 import 'package:hero/domain/cubit/single_heroes_cubit.dart';
@@ -33,8 +32,6 @@ class HeroScreen extends StatelessWidget {
                 ],
               _ => null,
             },
-            backgroundColor: const Color.fromARGB(255, 101, 5, 5),
-            foregroundColor: const Color.fromARGB(255, 251, 216, 216),
           ),
           body: switch (state) {
             HeroStateLoading() => const Center(
@@ -64,14 +61,8 @@ class HeroScreen extends StatelessWidget {
                     const SizedBox(
                       height: 16,
                     ),
-                    Text(
-                      state.data.name,
-                      style: const TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 101, 5, 5),
-                      ),
-                    ),
+                    Text(state.data.name,
+                        style: Theme.of(context).textTheme.headlineMedium),
                     const SizedBox(
                       height: 16,
                     ),

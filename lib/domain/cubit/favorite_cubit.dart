@@ -16,8 +16,8 @@ class FavoriteCubit extends Cubit<FavoriteState> {
     try {
       emit(FavoriteLoadingState());
       final fetchedFavorites = await _heroRepository.getFavoriteHeroes();
-      _sortFavorites();
-      emit(FavoriteReadyState(data: fetchedFavorites));
+      final sorted = _sortFavorites(fetchedFavorites);
+      emit(FavoriteReadyState(data: sorted));
     } catch (err, st) {
       emit(FavoriteErrorState(error: err, st: st));
     }
@@ -35,16 +35,16 @@ class FavoriteCubit extends Cubit<FavoriteState> {
   void toggleSortOrder() async {
     _currentOrder = _currentOrder == SortOrder.az ? SortOrder.za : SortOrder.az;
     final fetchedFavorites = await _heroRepository.getFavoriteHeroes();
-    _sortFavorites();
-    emit(FavoriteReadyState(data: fetchedFavorites));
+    final sorted = _sortFavorites(fetchedFavorites);
+    emit(FavoriteReadyState(data: sorted));
   }
 
-  void _sortFavorites() async {
-    final fetchedFavorites = await _heroRepository.getFavoriteHeroes();
-    fetchedFavorites.sort((a, b) {
+  List<HeroClass> _sortFavorites(List<HeroClass> favorites) {
+    favorites.sort((a, b) {
       final result = a.name.compareTo(b.name);
       return _currentOrder == SortOrder.az ? result : -result;
     });
+    return favorites;
   }
 }
 

@@ -6,6 +6,10 @@ import 'package:hero/tabs_screen.dart';
 
 var kColorScheme =
     ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 251, 216, 216));
+var darkColorScheme =
+    ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 32, 88, 63));
+var tColorScheme =
+    ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 0, 0, 0));
 
 void main() {
   runApp(
@@ -39,11 +43,47 @@ class HeroApp extends StatelessWidget {
               backgroundColor: Color.fromARGB(255, 101, 5, 5),
               foregroundColor: Color.fromARGB(255, 251, 216, 216),
             ),
+            textTheme: const TextTheme(
+                labelLarge: TextStyle(
+                  color: Color.fromARGB(255, 101, 5, 5),
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                bodyMedium: TextStyle(
+                  color: Colors.black,
+                  fontSize: 12,
+                ),
+                headlineMedium: TextStyle(
+                  color: Color.fromARGB(255, 101, 5, 5),
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                )),
           ),
           darkTheme: ThemeData.dark().copyWith(
+            colorScheme: darkColorScheme,
+            textTheme: const TextTheme(
+              labelLarge: TextStyle(
+                color: Color.fromARGB(255, 45, 125, 89),
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                overflow: TextOverflow.ellipsis,
+              ),
+              headlineMedium: TextStyle(
+                color: Color.fromARGB(255, 45, 125, 89),
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            cardTheme: const CardTheme(color: Color.fromARGB(255, 42, 42, 42)),
             appBarTheme: const AppBarTheme(
               backgroundColor: Colors.black,
               foregroundColor: Colors.white,
+            ),
+            switchTheme: const SwitchThemeData(
+              trackColor: WidgetStatePropertyAll(Colors.white),
+              thumbColor:
+                  WidgetStatePropertyAll(Color.fromARGB(255, 45, 125, 89)),
             ),
           ),
         );

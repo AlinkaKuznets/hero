@@ -8,16 +8,15 @@ import 'package:http/http.dart' as http;
 class RestSource {
   static const _baseUrl = 'https://rickandmortyapi.com/api/character';
 
-  String _getAllRoute() => '/';
+  String _getAllRoute(int page) => '?page=$page';
   String _getOneHeroRoute(int id) => '/$id';
 
-  Future<List<HeroClass>> getHeroes() async {
+  Future<ResponseDto> getHeroes(int page) async {
     final response = await _get(
-      _getAllRoute(),
+      _getAllRoute(page),
     );
 
-    final parsedResponse = ResponseDto.fromJson(response);
-    return parsedResponse.results.map((e) => e.toDomain()).toList();
+    return ResponseDto.fromJson(response);
   }
 
   Future<HeroClass> getHero(int id) async {

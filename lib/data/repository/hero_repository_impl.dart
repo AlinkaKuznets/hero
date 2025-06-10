@@ -1,21 +1,22 @@
 import 'package:hero/data/source/rest_source.dart';
-import 'package:hero/data/source/storage_source.dart';
+import 'package:hero/data/source/local_storage_source.dart';
 import 'package:hero/domain/model/hero.dart';
 import 'package:hero/domain/repository/hero_repository.dart';
 
 class HeroRepositoryImpl implements HeroRepository {
   final RestSource _restSource;
-  final StorageSource _storageSource;
+  final LocalStorageSource _storageSource;
 
   HeroRepositoryImpl({
     required RestSource restSource,
-    required StorageSource storageSource,
+    required LocalStorageSource storageSource,
   })  : _restSource = restSource,
         _storageSource = storageSource;
 
   @override
-  Future<List<HeroClass>> getHeroes() {
-    return _restSource.getHeroes();
+  Future<List<HeroClass>> getHeroes(int page) async {
+    final response = await _restSource.getHeroes(page);
+    return response.results.map((e) => e.toDomain()).toList();
   }
 
   @override
@@ -24,12 +25,12 @@ class HeroRepositoryImpl implements HeroRepository {
   }
 
   @override
-  List<HeroClass> getFavoriteHeroes() {
-    return _storageSource.favoriteHeroes;
+  Future<List<HeroClass>> getFavoriteHeroes() {
+    return _storageSource.loadFavoriteHeroes();
   }
 
   @override
   Future<void> markHeroFavorite(HeroClass hero) {
-    return _storageSource.markHeroFavorite(hero);
+    return _storageSource.saveFavoriteHero(hero);
   }
 }

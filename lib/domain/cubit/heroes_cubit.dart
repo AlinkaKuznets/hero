@@ -1,28 +1,57 @@
+import 'package:bloc/bloc.dart';
 import 'package:hero/domain/model/hero.dart';
 import 'package:hero/domain/repository/hero_repository.dart';
-import 'package:bloc/bloc.dart';
 
 class HeroesCubit extends Cubit<HeroesState> {
   final HeroRepository _heroRepository;
 
-  HeroesCubit(this._heroRepository) : super(HeroesStateLoading());
+  final List<HeroClass> _loadedHeroes = [];
 
-  Future<void> loadData() async {
+  HeroesCubit(this._heroRepository)
+      : super(
+          HeroesStateLoading(
+            loadingPage: 0,
+            data: [],
+          ),
+        );
+
+  Future<void> loadData([int page = 0]) async {
+    emit(
+      HeroesStateLoading(
+        loadingPage: page,
+        data: state.data,
+      ),
+    );
+
     try {
-      emit(HeroesStateLoading());
+      final heroes = await _heroRepository.getHeroes(page);
 
-      final data = await _heroRepository.getHeroes();
+      _loadedHeroes.addAll(heroes);
 
-      emit(HeroesStateReady(data: data));
+      emit(HeroesStateReady(data: List.of(_loadedHeroes)));
     } catch (err, st) {
-      emit(HeroesStateError(error: err, st: st));
+      emit(
+        HeroesStateError(
+          error: err,
+          st: st,
+          data: state.data,
+        ),
+      );
     }
   }
 }
 
-sealed class HeroesState {}
+sealed class HeroesState {
+  final List<HeroClass> data;
 
-class HeroesStateLoading extends HeroesState {}
+  HeroesState({required this.data});
+}
+
+class HeroesStateLoading extends HeroesState {
+  final int loadingPage;
+
+  HeroesStateLoading({required this.loadingPage, required super.data});
+}
 
 class HeroesStateError extends HeroesState {
   final Object? error;
@@ -31,11 +60,10 @@ class HeroesStateError extends HeroesState {
   HeroesStateError({
     required this.error,
     required this.st,
+    required super.data,
   });
 }
 
 class HeroesStateReady extends HeroesState {
-  final List<HeroClass> data;
-
-  HeroesStateReady({required this.data});
+  HeroesStateReady({required super.data});
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hero/domain/cubit/heroes_cubit.dart';
 import 'package:hero/hero_card.dart';
-import 'package:hero/injection.dart' ;
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -13,55 +12,12 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final scrollController = ScrollController();
+  int _page = 1;
 
   @override
   void initState() {
     super.initState();
-
-    scrollController.addListener(_listener);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => inj.heroesCubit..loadData(),
-      child: Scaffold(
-        body: BlocBuilder<HeroesCubit, HeroesState>(
-          builder: (context, state) {
-            return switch (state) {
-              HeroesStateLoading() => const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              HeroesStateError() => Center(
-                  child: Column(
-                    children: [
-                      Text(
-                        state.error.toString(),
-                      ),
-                      Text(state.st.toString()),
-                    ],
-                  ),
-                ),
-              HeroesStateReady() => state.data.isEmpty
-                  ? const Center(
-                      child: Text('Упс, что-то пошло не так!'),
-                    )
-                  : GridView.builder(
-                      controller: scrollController,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 8,
-                        mainAxisSpacing: 8,
-                      ),
-                      itemCount: state.data.length,
-                      itemBuilder: (ctx, index) => HeroCard(state.data[index]),
-                    ),
-            };
-          },
-        ),
-      ),
-    );
+    scrollController.addListener(_onScroll);
   }
 
   @override
@@ -70,16 +26,58 @@ class _MainScreenState extends State<MainScreen> {
     super.dispose();
   }
 
-  int page = 1;
-
-  void _listener() {
+  void _onScroll() {
     final position = scrollController.position;
-    final max = position.maxScrollExtent;
-    final current = position.pixels;
-
-    if (current >= max - 100) {
-      page++;
-      // load next page
+    if (position.pixels >= position.maxScrollExtent - 100 &&
+        context.read<HeroesCubit>().state is HeroesStateReady) {
+      context.read<HeroesCubit>().loadData(_page++);
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: BlocBuilder<HeroesCubit, HeroesState>(
+        builder: (context, state) {
+          return switch (state) {
+            HeroesStateLoading state when state.loadingPage == 0 =>
+              const Center(
+                child: CircularProgressIndicator(),
+              ),
+            HeroesStateError() => Center(
+                child: Column(
+                  children: [
+                    Text(
+                      state.error.toString(),
+                    ),
+                    Text(state.st.toString()),
+                  ],
+                ),
+              ),
+            _ => state.data.isEmpty
+                ? const Center(
+                    child: Text('Упс, что-то пошло не так!'),
+                  )
+                : GridView.builder(
+                    controller: scrollController,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 8,
+                      mainAxisSpacing: 8,
+                    ),
+                    itemCount: state.data.length +
+                        (state is HeroesStateLoading ? 1 : 0),
+                    itemBuilder: (ctx, index) => state is HeroesStateLoading &&
+                            index == state.data.length
+                        ? const CircularProgressIndicator()
+                        : HeroCard(
+                            state.data[index],
+                          ),
+                  ),
+          };
+        },
+      ),
+    );
   }
 }

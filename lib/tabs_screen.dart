@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hero/domain/cubit/favorite_cubit.dart';
 import 'package:hero/domain/cubit/settings_cubit.dart';
 import 'package:hero/favorite_screen.dart';
 import 'package:hero/injection.dart';
@@ -38,14 +39,41 @@ class _TabsScreenState extends State<TabsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => inj.settingCubit..loadSettings(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => inj.heroesCubit..loadData(),
+        )
+      ],
       child: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, state) {
           return Scaffold(
-            appBar: AppBar(
-              title: Text(_titles[_currentScreen] ?? ''),
-            ),
+            appBar:
+                AppBar(title: Text(_titles[_currentScreen] ?? ''), actions: [
+              if (_titles[_currentScreen] == 'Favorites')
+                Row(
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          context.read<FavoriteCubit>().toggleSortOrder();
+                        },
+                        icon: const Icon(
+                          Icons.sort_by_alpha,
+                        )),
+                    BlocBuilder<FavoriteCubit, FavoriteState>(
+                      builder: (context, state) {
+                        final order =
+                            context.read<FavoriteCubit>().currentOrder;
+                        return Icon(
+                          order == SortOrder.az
+                              ? Icons.arrow_drop_down_outlined
+                              : Icons.arrow_drop_up_outlined,
+                        );
+                      },
+                    ),
+                  ],
+                )
+            ]),
             drawer: state.useNavBar
                 ? null
                 : MainDrawer(

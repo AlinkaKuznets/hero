@@ -2,22 +2,27 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hero/domain/model/hero.dart';
 import 'package:hero/domain/repository/hero_repository.dart';
 
+enum SortOrder { az, za }
+
 class FavoriteCubit extends Cubit<FavoriteState> {
   final HeroRepository _heroRepository;
+  SortOrder _currentOrder = SortOrder.az;
 
   FavoriteCubit(this._heroRepository) : super(FavoriteLoadingState());
 
-  void loadData() {
+  SortOrder get currentOrder => _currentOrder;
+
+  Future<void> loadData() async {
     try {
       emit(FavoriteLoadingState());
-      final data = _heroRepository.getFavoriteHeroes();
-      emit(FavoriteReadyState(data: data));
+      final fetchedFavorites = await _heroRepository.getFavoriteHeroes();
+      _sortFavorites();
+      emit(FavoriteReadyState(data: fetchedFavorites));
     } catch (err, st) {
       emit(FavoriteErrorState(error: err, st: st));
     }
   }
 
-  //TODO: refactor
   Future<void> markHeroFavorite(HeroClass hero) async {
     try {
       await _heroRepository.markHeroFavorite(hero);
@@ -25,6 +30,21 @@ class FavoriteCubit extends Cubit<FavoriteState> {
     } catch (err, st) {
       emit(FavoriteErrorState(error: err, st: st));
     }
+  }
+
+  void toggleSortOrder() async {
+    _currentOrder = _currentOrder == SortOrder.az ? SortOrder.za : SortOrder.az;
+    final fetchedFavorites = await _heroRepository.getFavoriteHeroes();
+    _sortFavorites();
+    emit(FavoriteReadyState(data: fetchedFavorites));
+  }
+
+  void _sortFavorites() async {
+    final fetchedFavorites = await _heroRepository.getFavoriteHeroes();
+    fetchedFavorites.sort((a, b) {
+      final result = a.name.compareTo(b.name);
+      return _currentOrder == SortOrder.az ? result : -result;
+    });
   }
 }
 

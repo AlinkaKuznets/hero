@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hero/domain/cubit/favorite_cubit.dart';
 import 'package:hero/domain/model/hero.dart';
 import 'package:hero/hero_screen.dart';
 
@@ -10,9 +12,7 @@ class HeroCard extends StatelessWidget {
   void selectHero(BuildContext context, int id) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (ctx) => HeroScreen(
-          id: id,
-        ),
+        builder: (ctx) => HeroScreen(id: id),
       ),
     );
   }
@@ -22,35 +22,71 @@ class HeroCard extends StatelessWidget {
     return Card(
       clipBehavior: Clip.hardEdge,
       child: GestureDetector(
-        onTap: () {
-          selectHero(context, hero.id);
-        },
+        onTap: () => selectHero(context, hero.id),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(
-              hero.image,
-              height: 80,
-              width: double.maxFinite,
-              fit: BoxFit.cover,
+            Stack(
+              children: [
+                Image.network(
+                  hero.image,
+                  height: 120,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+                Positioned(
+                  right: 4,
+                  top: 4,
+                  child: DecoratedBox(
+                    decoration: ShapeDecoration(
+                      shape: const StarBorder(),
+                      color: Colors.white.withOpacity(0.6),
+                    ),
+                    child: BlocBuilder<FavoriteCubit, FavoriteState>(
+                      builder: (context, favoriteState) {
+                        final isFavorite = switch (favoriteState) {
+                          FavoriteReadyState() =>
+                            favoriteState.data.contains(hero),
+                          _ => false,
+                        };
+                        return Align(
+                          alignment: Alignment.topRight,
+                          child: IconButton(
+                            padding: EdgeInsets.zero,
+                            constraints: const BoxConstraints(),
+                            onPressed: () {
+                              context
+                                  .read<FavoriteCubit>()
+                                  .markHeroFavorite(hero);
+                            },
+                            icon: Icon(
+                              isFavorite ? Icons.star : Icons.star_border,
+                              color: Colors.black,
+                              size: 32,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: 4,
-              ),
-            ),
-            Text(
-              hero.name,
-              style: const TextStyle(
-                color: Color.fromARGB(255, 101, 5, 5),
-                fontWeight: FontWeight.bold,
-                fontSize: 13,
+            const SizedBox(height: 4),
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Text(
+                hero.name,
+                style: const TextStyle(
+                  color: Color.fromARGB(255, 101, 5, 5),
+                  fontWeight: FontWeight.bold,
+                  overflow: TextOverflow.ellipsis,
+                  fontSize: 16,
+                ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8,
-                vertical: 2,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -59,22 +95,16 @@ class HeroCard extends StatelessWidget {
                       hero.species,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 10,
-                      ),
+                      style: const TextStyle(fontSize: 12),
                     ),
                   ),
-                  const SizedBox(
-                    width: 8,
-                  ),
+                  const SizedBox(width: 8),
                   Flexible(
                     child: Text(
                       hero.location.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 10,
-                      ),
+                      style: const TextStyle(fontSize: 12),
                     ),
                   ),
                 ],

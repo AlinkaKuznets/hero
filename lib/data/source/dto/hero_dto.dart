@@ -27,6 +27,24 @@ class HeroDto {
         location: location.toDomain(),
       );
 
+  static HeroDto fromDomain(HeroClass e) => HeroDto(
+        id: e.id,
+        name: e.name,
+        species: e.species,
+        image: e.image,
+        episode: e.episode,
+        location: LocationDto.fromDomain(e.location),
+      );
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'species': species,
+        'image': image,
+        'episode': episode,
+        'location': location.toJson(),
+      };
+
   static HeroDto fromJson(Map<String, dynamic> json) {
     return HeroDto(
       id: json['id'],

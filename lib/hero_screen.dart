@@ -18,17 +18,7 @@ class HeroScreen extends StatelessWidget {
           appBar: AppBar(
             actions: switch (state) {
               HeroStateSelected() => [
-                  BlocBuilder<FavoriteCubit, FavoriteState>(
-                    builder: (context, favoriteState) {
-                      final isSelected = switch (favoriteState) {
-                        FavoriteReadyState() =>
-                          favoriteState.data.contains(state.data),
-                        _ => false,
-                      };
-                      return FavoriteButton(state.data,
-                          iconColor: Colors.white);
-                    },
-                  )
+                  FavoriteButton(state.data, iconColor: Colors.white)
                 ],
               _ => null,
             },

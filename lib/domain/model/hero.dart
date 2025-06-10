@@ -18,7 +18,14 @@ class HeroClass {
   final Location location;
 
   @override
-  int get hashCode => Object.hashAll([id, name, species, image]);
+  int get hashCode => Object.hashAll([
+        id,
+        name,
+        species,
+        image,
+        episode,
+        location,
+      ]);
 
   @override
   bool operator ==(Object other) {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hero/domain/cubit/favorite_cubit.dart';
 import 'package:hero/domain/model/hero.dart';
@@ -7,7 +6,12 @@ import 'package:hero/domain/model/hero.dart';
 class FavoriteButton extends StatefulWidget {
   final HeroClass hero;
   final Color iconColor;
-  const FavoriteButton(this.hero, {super.key, this.iconColor = Colors.black});
+
+  const FavoriteButton(
+    this.hero, {
+    super.key,
+    this.iconColor = Colors.black,
+  });
 
   @override
   State<FavoriteButton> createState() => _FavoriteButtonState();
@@ -19,9 +23,14 @@ class _FavoriteButtonState extends State<FavoriteButton>
     duration: const Duration(milliseconds: 200),
     vsync: this,
   );
-  late final Animation<double> _scaleAnimation =
-      Tween<double>(begin: 1.0, end: 1.3).animate(
-    CurvedAnimation(parent: _controller, curve: Curves.easeOut),
+  late final Animation<double> _scaleAnimation = Tween<double>(
+    begin: 1.0,
+    end: 1.3,
+  ).animate(
+    CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOut,
+    ),
   );
 
   @override

@@ -18,8 +18,9 @@ class Injection {
     restSource: _restSource,
     storageSource: _storageSource,
   );
-  late final _settingsRepository =
-      SettingsRepositoryImpl(settingSource: _settingsSource);
+  late final _settingsRepository = SettingsRepositoryImpl(
+    settingSource: _settingsSource,
+  );
 
   HeroesCubit get heroesCubit => HeroesCubit(_heroRepository);
 

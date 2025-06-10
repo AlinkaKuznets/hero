@@ -26,7 +26,8 @@ class LocalStorageSource {
       savedHeroes.add(hero);
     }
     final json = jsonEncode(
-        savedHeroes.map((e) => HeroDto.fromDomain(e).toJson()).toList());
+      savedHeroes.map((e) => HeroDto.fromDomain(e).toJson()).toList(),
+    );
     await preferences.setString(_favoriteKey, json);
   }
 }

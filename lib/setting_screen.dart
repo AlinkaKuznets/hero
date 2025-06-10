@@ -12,45 +12,65 @@ class SettingScreen extends StatelessWidget {
         return Column(
           children: [
             const SizedBox(height: 16),
-            Text('Настройка навигации',
-                style: Theme.of(context).textTheme.labelLarge),
+            Text(
+              'Настройка навигации',
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Text('Боковое меню',
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                const Text(
+                  'Боковое меню',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
                 Switch(
                   value: state.useNavBar,
                   onChanged: (newValue) {
                     context.read<SettingsCubit>().toggleNavigation(newValue);
                   },
                 ),
-                const Text('Нижнее меню',
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                const Text(
+                  'Нижнее меню',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 16),
-            Text('Настройка темы',
-                style: Theme.of(context).textTheme.labelLarge),
+            Text(
+              'Настройка темы',
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Text('Светлая тема',
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                const Text(
+                  'Светлая тема',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
                 Switch(
                   value: state.isDarkMode,
                   onChanged: (newValue) {
                     context.read<SettingsCubit>().toggleTheme(newValue);
                   },
                 ),
-                const Text('Темная тема',
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                const Text(
+                  'Темная тема',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
               ],
             )
           ],

@@ -1,4 +1,5 @@
-import 'package:bloc/bloc.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hero/domain/model/hero.dart';
 import 'package:hero/domain/repository/hero_repository.dart';
 

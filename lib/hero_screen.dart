@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hero/domain/cubit/favorite_cubit.dart';
 import 'package:hero/domain/cubit/single_heroes_cubit.dart';
 import 'package:hero/favorite_button.dart';
 import 'package:hero/injection.dart';
 
 class HeroScreen extends StatelessWidget {
-  const HeroScreen({super.key, required this.id});
+  const HeroScreen({
+    super.key,
+    required this.id,
+  });
+
   final int id;
 
   @override
@@ -51,8 +54,10 @@ class HeroScreen extends StatelessWidget {
                     const SizedBox(
                       height: 16,
                     ),
-                    Text(state.data.name,
-                        style: Theme.of(context).textTheme.headlineMedium),
+                    Text(
+                      state.data.name,
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
                     const SizedBox(
                       height: 16,
                     ),
@@ -102,7 +107,7 @@ class HeroScreen extends StatelessWidget {
                           Row(
                             children: [
                               const Text(
-                                'NUMBER OF EPISODE: ',
+                                'NUMBER OF EPISODES: ',
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,

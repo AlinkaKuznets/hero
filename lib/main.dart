@@ -8,8 +8,6 @@ var kColorScheme =
     ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 251, 216, 216));
 var darkColorScheme =
     ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 32, 88, 63));
-var tColorScheme =
-    ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 0, 0, 0));
 
 void main() {
   runApp(
@@ -75,15 +73,18 @@ class HeroApp extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            cardTheme: const CardTheme(color: Color.fromARGB(255, 42, 42, 42)),
+            cardTheme: const CardTheme(
+              color: Color.fromARGB(255, 42, 42, 42),
+            ),
             appBarTheme: const AppBarTheme(
               backgroundColor: Colors.black,
               foregroundColor: Colors.white,
             ),
             switchTheme: const SwitchThemeData(
               trackColor: WidgetStatePropertyAll(Colors.white),
-              thumbColor:
-                  WidgetStatePropertyAll(Color.fromARGB(255, 45, 125, 89)),
+              thumbColor: WidgetStatePropertyAll(
+                Color.fromARGB(255, 45, 125, 89),
+              ),
             ),
           ),
         );

@@ -54,12 +54,13 @@ class _TabsScreenState extends State<TabsScreen> {
                 Row(
                   children: [
                     IconButton(
-                        onPressed: () {
-                          context.read<FavoriteCubit>().toggleSortOrder();
-                        },
-                        icon: const Icon(
-                          Icons.sort_by_alpha,
-                        )),
+                      onPressed: () {
+                        context.read<FavoriteCubit>().toggleSortOrder();
+                      },
+                      icon: const Icon(
+                        Icons.sort_by_alpha,
+                      ),
+                    ),
                     BlocBuilder<FavoriteCubit, FavoriteState>(
                       builder: (context, state) {
                         final order =

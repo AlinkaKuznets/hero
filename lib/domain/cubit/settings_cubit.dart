@@ -5,7 +5,10 @@ class SettingsCubit extends Cubit<SettingsState> {
   final SettingsRepository _settingsRepository;
 
   SettingsCubit(this._settingsRepository)
-      : super(SettingsState(useNavBar: true, isDarkMode: false)) {
+      : super(SettingsState(
+          useNavBar: true,
+          isDarkMode: false,
+        )) {
     loadSettings();
   }
 
@@ -17,12 +20,18 @@ class SettingsCubit extends Cubit<SettingsState> {
 
   Future<void> toggleNavigation(bool useNavBar) async {
     await _settingsRepository.saveUseNavBar(useNavBar);
-    emit(SettingsState(useNavBar: useNavBar));
+    emit(SettingsState(
+      useNavBar: useNavBar,
+      isDarkMode: state.isDarkMode,
+    ));
   }
 
   Future<void> toggleTheme(bool isDarkMode) async {
     await _settingsRepository.saveIsDarkMode(isDarkMode);
-    emit(SettingsState(isDarkMode: isDarkMode));
+    emit(SettingsState(
+      isDarkMode: isDarkMode,
+      useNavBar: state.useNavBar,
+    ));
   }
 }
 
@@ -30,5 +39,8 @@ class SettingsState {
   final bool useNavBar;
   final bool isDarkMode;
 
-  SettingsState({this.useNavBar = true, this.isDarkMode = false});
+  SettingsState({
+    this.useNavBar = true,
+    this.isDarkMode = false,
+  });
 }

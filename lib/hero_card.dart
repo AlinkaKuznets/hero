@@ -37,19 +37,22 @@ class HeroCard extends StatelessWidget {
                   right: 4,
                   top: 4,
                   child: DecoratedBox(
-                      decoration: ShapeDecoration(
-                        shape: const StarBorder(),
-                        color: Colors.white.withOpacity(0.6),
-                      ),
-                      child: FavoriteButton(hero)),
+                    decoration: ShapeDecoration(
+                      shape: const StarBorder(),
+                      color: Colors.white.withOpacity(0.6),
+                    ),
+                    child: FavoriteButton(hero),
+                  ),
                 ),
               ],
             ),
             const SizedBox(height: 4),
             Padding(
               padding: const EdgeInsets.all(4.0),
-              child: Text(hero.name,
-                  style: Theme.of(context).textTheme.labelLarge),
+              child: Text(
+                hero.name,
+                style: Theme.of(context).textTheme.labelLarge,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),

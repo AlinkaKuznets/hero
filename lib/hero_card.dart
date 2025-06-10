@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hero/domain/cubit/favorite_cubit.dart';
 import 'package:hero/domain/model/hero.dart';
+import 'package:hero/favorite_button.dart';
 import 'package:hero/hero_screen.dart';
 
 class HeroCard extends StatelessWidget {
@@ -38,37 +37,11 @@ class HeroCard extends StatelessWidget {
                   right: 4,
                   top: 4,
                   child: DecoratedBox(
-                    decoration: ShapeDecoration(
-                      shape: const StarBorder(),
-                      color: Colors.white.withOpacity(0.6),
-                    ),
-                    child: BlocBuilder<FavoriteCubit, FavoriteState>(
-                      builder: (context, favoriteState) {
-                        final isFavorite = switch (favoriteState) {
-                          FavoriteReadyState() =>
-                            favoriteState.data.contains(hero),
-                          _ => false,
-                        };
-                        return Align(
-                          alignment: Alignment.topRight,
-                          child: IconButton(
-                            padding: EdgeInsets.zero,
-                            constraints: const BoxConstraints(),
-                            onPressed: () {
-                              context
-                                  .read<FavoriteCubit>()
-                                  .markHeroFavorite(hero);
-                            },
-                            icon: Icon(
-                              isFavorite ? Icons.star : Icons.star_border,
-                              color: Colors.black,
-                              size: 32,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                      decoration: ShapeDecoration(
+                        shape: const StarBorder(),
+                        color: Colors.white.withOpacity(0.6),
+                      ),
+                      child: FavoriteButton(hero)),
                 ),
               ],
             ),

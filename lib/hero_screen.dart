@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hero/domain/cubit/favorite_cubit.dart';
 import 'package:hero/domain/cubit/single_heroes_cubit.dart';
+import 'package:hero/favorite_button.dart';
 import 'package:hero/injection.dart';
 
 class HeroScreen extends StatelessWidget {
@@ -25,21 +26,8 @@ class HeroScreen extends StatelessWidget {
                           favoriteState.data.contains(state.data),
                         _ => false,
                       };
-                      return IconButton(
-                        onPressed: () {
-                          context
-                              .read<FavoriteCubit>()
-                              .markHeroFavorite(state.data);
-                        },
-                        icon: isSelected
-                            ? const Icon(
-                                Icons.favorite,
-                                color: Colors.red,
-                              )
-                            : const Icon(
-                                Icons.favorite_border,
-                              ),
-                      );
+                      return FavoriteButton(state.data,
+                          iconColor: Colors.white);
                     },
                   )
                 ],
@@ -69,7 +57,7 @@ class HeroScreen extends StatelessWidget {
                   children: [
                     Image.network(
                       state.data.image,
-                      height: 300,
+                      height: 330,
                       width: double.maxFinite,
                       fit: BoxFit.cover,
                     ),
@@ -87,19 +75,66 @@ class HeroScreen extends StatelessWidget {
                     const SizedBox(
                       height: 16,
                     ),
-                    Text(
-                      'Appearance: ${state.data.location.name}',
-                      style: const TextStyle(
-                        fontSize: 18,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              const Text(
+                                'SPECIES: ',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                state.data.species,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                'LOCATION: ',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                state.data.location.name,
+                                style: const TextStyle(fontSize: 18),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                'NUMBER OF EPISODE: ',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                state.data.episode.length.toString(),
+                                style: const TextStyle(fontSize: 18),
+                              ),
+                            ],
+                          )
+                        ],
                       ),
-                    ),
-                    Text(
-                      'First appearence: ${state.data.location.name}',
-                      style: const TextStyle(fontSize: 18),
-                    ),
-                    Text(
-                      'Episode: ${state.data.episode.length}',
-                      style: const TextStyle(fontSize: 18),
                     )
                   ],
                 ),
